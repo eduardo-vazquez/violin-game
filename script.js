@@ -98,7 +98,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
 
 // Actualizar la posición de la bola usando el pitch detectado
 function updatePitchPosition() {
-    pitchElement.style.left = `${Math.round(currentPitch)}px`;
-    requestAnimationFrame(updatePitchsPosition);
+    pitchElement.style.bottom = `${Math.round(currentPitch)}px`;
+    requestAnimationFrame(updatePitchPosition);
 }
-updateBallPosition();
+updatePitchPosition();
