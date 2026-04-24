@@ -21,14 +21,14 @@ body{
     height: 100%;
 }
 #pitch{
-    width: 2.5rem;
+    width: 2rem;
     height: 2rem;
     background-color: #fff;
-    transform: skewY(-10deg);
+    /* transform: skewY(-10deg); */
     border-radius: 50%;
     position: absolute;
-    left: calc(50% - 15px);
-    bottom: -15px;
+    left: calc(50% - 1rem);
+    bottom: calc(50% - 1rem);
     transition: bottom 0.1s ease-out;
 
 }

@@ -98,7 +98,17 @@ navigator.mediaDevices.getUserMedia({ audio: true })
 
 // Actualizar la posición de la bola usando el pitch detectado
 function updatePitchPosition() {
-    pitchElement.style.bottom = `${Math.round(currentPitch)}px`;
+    const fa5 = 698.46; 
+    const mi4 = 329.63; // Frecuencia de la nota A5
+
+
+    pitchElement.style.bottom = `calc(${mapPitchToPosition(currentPitch)}% - 1rem)`;
     requestAnimationFrame(updatePitchPosition);
+
+    function mapPitchToPosition(pitch) {
+        if (pitch === 0) return 50; // Posición por defecto si no se detecta pitch
+        const position = ((pitch - mi4) / (fa5 - mi4)) * 100; // Mapear al rango de 0% a 100%
+        return position; // Ajustar para centrar la bola
+    }
 }
 updatePitchPosition();
