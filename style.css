@@ -14,7 +14,6 @@ body{
     height: 200px;
     position: relative;
     overflow: visible;
-    border: 1px solid red; 
 }
 #staff-lines{
     width: 100%;

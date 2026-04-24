@@ -1,6 +1,10 @@
 // Importa el PitchDetector desde el CDN de pitchy (versión ESM, ECMAScript Module)
 import { PitchDetector } from "https://esm.sh/pitchy@4";
 
+const frecuenciaLa4 = 440; 
+const frecuenciasViolin = generarFrecuenciasViolin();
+
+
 function drawStaff() {
     const svg = document.querySelector('#staff-lines');
     const staffDiv = document.querySelector('.staff-container');
@@ -8,15 +12,15 @@ function drawStaff() {
     // Obtener el tamaño actual del contenedor
     const width = staffDiv.offsetWidth;   // Ancho en píxeles
     const height = staffDiv.offsetHeight; // Alto en píxeles
-    
+
     // Configurar el SVG con esos tamaños
     svg.setAttribute("width", width);
     svg.setAttribute("height", height);
-    
+
     // Calcular el espaciado de forma proporcional
     const lineSpacing = height / 4; // Divide la altura en 6 partes (5 líneas = 6 espacios)
     const startY = 0;  // Margen superior
-    
+
     // Loop para 5 líneas
     for (let i = 0; i < 5; i++) {
         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -29,14 +33,8 @@ function drawStaff() {
         svg.appendChild(line);
     }
 }
-
 drawStaff();
 
-
-
-
-
-const pitchElement = document.querySelector('#pitch');
 // Variable global para almacenar el pitch actual
 let currentPitch = 0;
 // Solicita acceso al micrófono del usuario
@@ -94,21 +92,60 @@ navigator.mediaDevices.getUserMedia({ audio: true })
     .catch(err => {
         console.error('Error accessing microphone:', err);
     }
-);
+    );
 
 // Actualizar la posición de la bola usando el pitch detectado
 function updatePitchPosition() {
-    const fa5 = 698.46; 
-    const mi4 = 329.63; // Frecuencia de la nota A5
-
-
+    const pitchElement = document.querySelector('#pitch');
     pitchElement.style.bottom = `calc(${mapPitchToPosition(currentPitch)}% - 1rem)`;
     requestAnimationFrame(updatePitchPosition);
 
-    function mapPitchToPosition(pitch) {
-        if (pitch === 0) return 50; // Posición por defecto si no se detecta pitch
-        const position = ((pitch - mi4) / (fa5 - mi4)) * 100; // Mapear al rango de 0% a 100%
-        return position; // Ajustar para centrar la bola
-    }
 }
 updatePitchPosition();
+function mapPitchToPosition(pitch) {
+    if (pitch === 0) return 50; // Posición por defecto si no se detecta pitch
+    const position = ((pitch - frecuenciasViolin.mi3) / (frecuenciasViolin.fa4 - frecuenciasViolin.mi3)) * 100; // Mapear al rango de 0% a 100%
+
+    return position; // Ajustar para centrar la bola
+}
+
+function generarFrecuenciasViolin(afinacionLa = 440) {
+    const obtenerFreq = (dist) => afinacionLa * Math.pow(2, dist / 12);
+
+    return {
+        sol2:  obtenerFreq(-14), // Cuerda Sol al aire (196 Hz)
+        sol2s: obtenerFreq(-13), 
+        la2:   obtenerFreq(-12), 
+        la2s:  obtenerFreq(-11), 
+        si2:   obtenerFreq(-10), 
+        do3:   obtenerFreq(-9),  // Do (debajo del pentagrama)
+        do3s:  obtenerFreq(-8), 
+        re3:   obtenerFreq(-7),  // Cuerda Re al aire
+        re3s:  obtenerFreq(-6),
+        mi3:   obtenerFreq(-5),  // Mi (1ª línea del pentagrama)
+        fa3:   obtenerFreq(-4),  
+        fa3s:  obtenerFreq(-3), 
+        sol3:  obtenerFreq(-2),  
+        sol3s: obtenerFreq(-1), 
+        la3:   obtenerFreq(0),   // Cuerda La al aire (440 Hz)
+        la3s:  obtenerFreq(1),
+        si3:   obtenerFreq(2), 
+        do4:   obtenerFreq(3), 
+        do4s:  obtenerFreq(4),
+        re4:   obtenerFreq(5), 
+        re4s:  obtenerFreq(6), 
+        mi4:   obtenerFreq(7),   // Cuerda Mi al aire
+        fa4:   obtenerFreq(8),   // Fa natural (el que preguntaste al inicio)
+        fa4s:  obtenerFreq(9), 
+        sol4:  obtenerFreq(10), 
+        sol4s: obtenerFreq(11), 
+        la4:   obtenerFreq(12),  
+        la4s:  obtenerFreq(13),
+        si4:   obtenerFreq(14), 
+        do5:   obtenerFreq(15), 
+        do5s:  obtenerFreq(16), 
+        re5:   obtenerFreq(17), 
+        re5s:  obtenerFreq(18), 
+        mi5:   obtenerFreq(19),
+    };
+}
