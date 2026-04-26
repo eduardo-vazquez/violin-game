@@ -2,6 +2,7 @@ import { PitchDetector } from "https://esm.sh/pitchy@4";
 
 const frecuenciaLa4 = 440; 
 const frecuenciasViolin = generarFrecuenciasViolin();
+const noteElement = document.querySelector('#note');
 
 
 function drawStaff() {
@@ -70,6 +71,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
                 if (pitchHistory.length > maxHistory) pitchHistory.shift();
                 // Calcula el promedio móvil
                 currentPitch = pitchHistory.reduce((a, b) => a + b, 0) / pitchHistory.length;
+                
             } else {
                 // Si no se detecta frecuencia clara, resetea el pitch
                 currentPitch = 0;
@@ -89,48 +91,60 @@ navigator.mediaDevices.getUserMedia({ audio: true })
 
 // Actualizar la posición de la bola usando el pitch detectado
 function updateNotePosition() {
-    const noteElement = document.querySelector('#note');
     let pitchHight= currentPitch;
 
     if (pitchHight >= frecuenciasViolin.sol2 && pitchHight <= frecuenciasViolin.sol2s) {
         pitchHight = frecuenciasViolin.sol2; //
         showSharp(frecuenciasViolin.sol2s); // Mostrar sostenido para Sol al aire
+        updateNoteColor(frecuenciasViolin.sol2); // Actualizar color para Sol al aire               
     } else if (pitchHight >= frecuenciasViolin.la2 && pitchHight <= frecuenciasViolin.la2s) {
         pitchHight = frecuenciasViolin.la2; // La al aire
         showSharp(frecuenciasViolin.la2s); // Mostrar sostenido para La al aire
+        updateNoteColor(frecuenciasViolin.la2); // Actualizar color para La al aire
     } else if (pitchHight >= frecuenciasViolin.do3 && pitchHight <= frecuenciasViolin.do3s) {
         pitchHight = frecuenciasViolin.do3; // Do (debajo del pentagrama)
         showSharp(frecuenciasViolin.do3s); // Mostrar sostenido para Do
+        updateNoteColor(frecuenciasViolin.do3); // Actualizar color para Do (debajo del pentagrama)
     } else if (pitchHight >= frecuenciasViolin.re3 && pitchHight <= frecuenciasViolin.re3s) {
         pitchHight = frecuenciasViolin.re3; // Re al aire
         showSharp(frecuenciasViolin.re3s); // Mostrar sostenido para Re al aire
+        updateNoteColor(frecuenciasViolin.re3); // Actualizar color para Re al aire
     } else if (pitchHight >= frecuenciasViolin.fa4 && pitchHight <= frecuenciasViolin.fa4s) {
         pitchHight  = frecuenciasViolin.fa4; // Fa natural
         showSharp(frecuenciasViolin.fa4s); // Mostrar sostenido para Fa natural
+        updateNoteColor(frecuenciasViolin.fa4); // Actualizar color para Fa naturalo
     } else if (pitchHight >= frecuenciasViolin.fa3 && pitchHight <= frecuenciasViolin.fa3s) {
        pitchHight = frecuenciasViolin.fa3; // Fa (entre la 1ª y 2ª línea)
        showSharp(frecuenciasViolin.fa3s); // Mostrar sostenido para Fa (entre la 1ª y 2ª línea)
+       updateNoteColor(frecuenciasViolin.fa3); // Actualizar color para Fa (entre la 1ª y 2ª línea)
     } else if (pitchHight >= frecuenciasViolin.sol3 && pitchHight <= frecuenciasViolin.sol3s) {
         pitchHight = frecuenciasViolin.sol3; // Sol (2ª línea del pentagrama)
         showSharp(frecuenciasViolin.sol3s); // Mostrar sostenido para Sol (2ª línea del pentagrama)
+        updateNoteColor(frecuenciasViolin.sol3); // Actualizar color para Sol (2ª línea del pentagrama) 
     } else if (pitchHight >= frecuenciasViolin.la3 && pitchHight <= frecuenciasViolin.la3s) {
         pitchHight = frecuenciasViolin.la3; // La (3ª línea del pentagrama)
         showSharp(frecuenciasViolin.la3s); // Mostrar sostenido para La (3ª línea del pentagrama)
+        updateNoteColor(frecuenciasViolin.la3); // Actualizar color para La (3ª línea del pentagrama)   
     } else if (pitchHight >= frecuenciasViolin.do4 && pitchHight <= frecuenciasViolin.do4s) {
         pitchHight = frecuenciasViolin.do4; // Si (4ª línea del pentagrama)
         showSharp(frecuenciasViolin.do4s); // Mostrar sostenido para Si (4ª línea del pentagrama)
+        updateNoteColor(frecuenciasViolin.do4); // Actualizar color para Si (4ª línea del pentagrama)
     } else if (pitchHight >= frecuenciasViolin.re4 && pitchHight <= frecuenciasViolin.re4s) {
         pitchHight = frecuenciasViolin.re4; // Re (5ª línea del pentagrama)
         showSharp(frecuenciasViolin.re4s); // Mostrar sostenido para Re (5ª línea del pentagrama)
+        updateNoteColor(frecuenciasViolin.re4); // Actualizar color para Re (5ª línea del pentagrama)
     } else if (pitchHight >= frecuenciasViolin.fa4 && pitchHight <= frecuenciasViolin.fa4s) {
         pitchHight = frecuenciasViolin.fa4; // Fa natural
         showSharp(frecuenciasViolin.fa4s); // Mostrar sostenido para Fa natural
+        updateNoteColor(frecuenciasViolin.fa4); // Actualizar color para Fa natural
     } else if (pitchHight >= frecuenciasViolin.sol4 && pitchHight <= frecuenciasViolin.sol4s) {
         pitchHight = frecuenciasViolin.sol4; // Sol (cuerda Sol al aire)
         showSharp(frecuenciasViolin.sol4s); // Mostrar sostenido para Sol (cuerda Sol al aire)
+        updateNoteColor(frecuenciasViolin.sol4); // Actualizar color para Sol (cuerda Sol al aire)
     } else if (pitchHight >= frecuenciasViolin.la4 && pitchHight <= frecuenciasViolin.la4s) {
         pitchHight = frecuenciasViolin.la4; // La (cuerda La al aire)
         showSharp(frecuenciasViolin.la4s); // Mostrar sostenido para La (cuerda La al aire)
+        updateNoteColor(frecuenciasViolin.la4); // Actualizar color para La (cuerda La al aire)
     } else {
         pitchHight = currentPitch; // Mi (cuerda Mi al aire)
         showSharp(null); // Mostrar sostenido para Mi (cuerda Mi al aire)
@@ -142,9 +156,7 @@ function updateNotePosition() {
 }
 updateNotePosition();
 
-function updateNoteColor() {
-    const noteElement = document.querySelector('#note');
-    const targetFreq = frecuenciasViolin.fa4; // Frecuencia objetivo (Fa natural)
+function updateNoteColor(targetFreq) {
     const tolerance = 10; // Tolerancia en Hz para considerar que el pitch es correcto
 
     if (Math.abs(currentPitch - targetFreq) <= tolerance) {
@@ -156,7 +168,7 @@ function updateNoteColor() {
     }
     requestAnimationFrame(updateNoteColor);
 }
-updateNoteColor();
+updateNoteColor(frecuenciasViolin.fa4); // Pasar la frecuencia objetivo
 
 function showSharp(targetFreq) {
     if (!targetFreq) return; // Si no hay frecuencia objetivo, no mostrar sostenido

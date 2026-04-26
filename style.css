@@ -29,6 +29,8 @@ body{
     left: calc(50% - 1.5rem);
     bottom: calc(50% - 1.5rem);
     transition: all 0.1s ease-out;
+    transform: skewY(-10deg);
+    /* opacity: 0; */
 }
 #sharp{
     font-size: 3rem;
@@ -37,7 +39,8 @@ body{
     width: 2rem;
     height: 2rem;
     margin-left: -2rem;
-    margin-top: -0.2rem;
+    margin-top: -0.7rem;
+    transform: skewY(10deg);
 }
 .clef{
     font-size: 420px;
